@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+</head>
+
+<body>
+    <div id="app">
+    	<div>val.a+1-1={{ val.a+1-1 }}  val.b*5={{ val.b*5 }}</div>
+    	<p>你好,我的名字是{{person.name}},{{person.age}}岁</p>
+    </div>
+</body>
+
+</html>
+<script type="text/javascript">
+
+
+//属性修改拦截
+function def(obj, fun){
+	var keys=Object.keys(obj)
+	for(let key of keys){
+		fun()
+		let oldval=obj[key]
+		Object.defineProperty(obj, key,{
+        	get(){
+        		return oldval
+        	},
+        	set(val){
+        		if(val!=oldval){
+	        		fun()
+        			oldval=val
+	        		if(typeof val== "object"){
+	        			def(val, fun)
+	        		}
+        		}
+        	}
+        })
+        if(typeof obj[key]=="object"){
+        	def(obj[key], fun)
+        }
+	}
+}
+
+class Vue {
+    constructor(obj) {
+        this.el = document.querySelector(obj.el)
+        this.data = obj.data
+        this.oldinnerHTML=this.el.innerHTML
+        let key = this.oldinnerHTML.match(/({{[^\{\}]*}})/g)
+
+        def(obj.data,()=>{
+        	var oldinnerHTML=this.oldinnerHTML
+	        var jh={}
+	        for(let item of key){
+	        	jh[item]=aa(obj.data, item.replace(/[\{|\}]/g,""))
+	        }
+	        for(let item in jh){
+	        	var rexs=item.split("").map((v)=>{
+	        		if(/[\+|\-|\*|\/]/.test(v)){
+	        			return "\\"+v
+	        		}
+	        		return v
+	        	}).join("")
+	        	var rex= new RegExp(rexs,"g")
+	        	oldinnerHTML=oldinnerHTML.replace(rex,jh[item])
+	        }
+	        this.el.innerHTML=oldinnerHTML
+        })
+
+        function aa(obj,str){
+        	var vars=""
+        	var __val=""
+        	for(let i in obj){
+        		vars+=`var ${i} = obj['${i}'];`;
+        	}
+    		eval(`${vars} __val=${str}`)
+    		return __val
+        }
+      	
+        return this.data
+    }
+
+}
+
+var person={
+	name: "小红",
+    age: 15,
+}
+
+var app = new Vue({
+    el: "#app",
+    data: {
+    	person: person,
+    	val:{
+    		a:11111,
+    		b:55
+    	}
+    }
+})
+
+</script>

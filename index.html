@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+	对象代理
+</body>
+</html>
+
+<script type="text/javascript">
+	
+	// es5
+	var person={
+		name:"小明",
+		age:20,
+	}
+
+	Object.defineProperty(person,"sex",{
+		writable:false,
+		value:"male"
+	})
+	person.sex="female"
+	console.table(person)
+
+
+	// es6
+
+	{
+		var Person={
+			name:"小明",
+			age:20,
+			sex:"male"
+		}
+
+		let person =new Proxy(Person, {
+			get(target,key){
+				return target[key]
+			},
+			set(target,key,value){
+				if(key!="sex"){
+					target[key]=value
+				}
+			}
+		})
+
+		person.sex="female"
+		console.log( person )
+	}
+</script>
