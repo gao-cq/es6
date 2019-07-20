@@ -26,7 +26,8 @@ class Dep {
     }
     //添加订阅者实例对象
     addSub(watcher) {
-        this.subs.push(watcher);
+        if(!this.subs.includes(watcher))
+            this.subs.push(watcher);
     }
     //移除订阅者实例对象
     removeSub(watcher) {
@@ -99,6 +100,7 @@ class Vue {
             eval(vars + "value=`" + str.replace(/\{\{/g, "${").replace(/\}\}/g, "}") + "`")
             return value
         }, (newVal) => {
+            console.log( "视图实现了更新" )
             this.el.innerHTML = newVal
         })
     }
@@ -129,8 +131,10 @@ class Vue {
                 return val;
             },
             set: function reactiveSetter(newVal) {
-                val = newVal;
-                dep.notify(); // 通知所有订阅者
+                if(val !=newVal ){
+                    val = newVal;
+                    dep.notify(); // 通知所有订阅者
+                }
             }
         })
     }
