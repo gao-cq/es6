@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+</head>
+
+<body>
+    <div id="app">
+        <p>{{message}}</p>
+        name:{{person.name}},age:{{person.age}}
+    </div>
+</body>
+
+</html>
+<script>
+let data = { name: 'tcy', age: '20', sex: 'male' };
+//发布器的uid
+let uid = 0;
+//发布器
+class Dep {
+    constructor() {
+        this.id = uid++ //发布器的标识，每次加1
+        this.subs = [] //订阅者集合
+    }
+    //添加订阅者实例对象
+    addSub(watcher) {
+        this.subs.push(watcher);
+    }
+    //移除订阅者实例对象
+    removeSub(watcher) {
+        remove(this.subs, watcher)
+    }
+    //通知所有订阅者
+    notify() {
+        const subs = this.subs.slice()
+        for (let i = 0, l = subs.length; i < l; i++) {
+            subs[i].update(); //更新
+        }
+    }
+}
+//记录当前的watcher实例  //关联dep时使用
+Dep.target = null;
+
+
+
+//订阅者
+class Watcher {
+    constructor(
+        expOrFn, //待监听的属性表达式
+        cb //监听到变化后的回调函数
+    ) {
+        this.expOrFn = expOrFn;
+        this.cb = cb;
+        this.value = this.get();
+        this.cb(this.value)
+    }
+    //通知更新
+    update() {
+        this.run();
+    }
+    //实现视图的更新
+    run() {
+        let oldValue = this.value //更新前数据
+        this.value = this.expOrFn(); //获取最新值
+        if (this.value != oldValue)
+            this.cb(this.value);
+    }
+    //获取value值，并进行依赖收集
+    get() {
+        //将自身watcher订阅实例设置给Dep.target
+        Dep.target = this
+        //这一步很重要，获取属性值，同时将订阅者实例添加到发布器中
+        let value = this.expOrFn();
+        Dep.target = null
+
+        //将订阅实例从target栈中取出并设置给Dep.target
+        return value;
+    }
+}
+
+
+//vue
+class Vue {
+    constructor(obj, el = obj.el, data = obj.data, str = "") {
+        this.el = document.querySelector(el)
+        this.data = data
+        str = this.el.innerHTML;
+
+        //第一步，为每个属性创建一个发布器，并设置set，get劫持
+        this.observer(data);
+
+        //第二步，创建监听并实现依赖收集
+        new Watcher((vars = "", value = "") => {
+            for (let i in data) {
+                vars += `var ${i} = data['${i}'];`;
+            }
+            eval(vars + "value=`" + str.replace(/\{\{/g, "${").replace(/\}\}/g, "}") + "`")
+            return value
+        }, (newVal) => {
+            this.el.innerHTML = newVal
+        })
+    }
+
+
+    observer(data) {
+        //获取所有的属性进行遍历
+        const keys = Object.keys(data)
+        for (let i = 0; i < keys.length; i++) {
+            let val = data[keys[i]];
+            this.defineReactive(data, keys[i], val) //增加监听
+            if (typeof val == "object")
+                this.observer(val)
+        }
+    }
+
+
+    defineReactive(obj, key, val) {
+        //为每个键都创建一个 dep
+        let dep = new Dep();
+        Object.defineProperty(obj, key, {
+            enumerable: true, //可枚举
+            configurable: true, //可配置
+            get: function reactiveGetter() {
+                if (Dep.target) {
+                    dep.addSub(Dep.target);
+                }
+                return val;
+            },
+            set: function reactiveSetter(newVal) {
+                val = newVal;
+                dep.notify(); // 通知所有订阅者
+            }
+        })
+    }
+}
+
+var app = new Vue({
+    el: "#app",
+    data: {
+        message: "人物信息",
+        person: data
+    }
+})
+</script>
