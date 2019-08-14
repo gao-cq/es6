@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>新闻</title>
+  <!-- Link Swiper's CSS -->
+  <link rel="stylesheet" href="${base}/static_material/fgw/css/base.css">
+  <link rel="stylesheet" href="${base}/static_material/fgw/css/swiper.css">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+  	<script src="${base}/static_material/fgw/js/common.js"></script>
+	<script src="${base}/static_material/fgw/js/jquery-1.11.1.js"></script>
+  	<script src="${base}/static_material/fgw/js/swiper.min.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" > 
+
+  <!-- Demo styles -->
+  <style>
+    html, body {
+      position: relative;
+      height: 100%;
+    }
+    *{padding:0;margin:0;box-sizing:border-box}
+    body {
+      background: #eee;
+      font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
+      font-size: 14px;
+      color:#000;
+      margin: 0;
+      padding: 0;
+    }
+    .swiper-container {
+      width: 100%;
+      height: 100%;
+    }
+    .swiper-wrapper{height: 100%;}
+    .navSwiper .swiper-slide{background: #fff;}
+    .swiper-slide {
+      text-align: center;
+      font-size: 18px;
+
+      /* Center slide text vertically */
+      /* display: -webkit-box;
+      display: -ms-flexbox;
+      display: -webkit-flex;
+      display: flex; */
+      -webkit-box-pack: center;
+      -ms-flex-pack: center;
+      -webkit-justify-content: center;
+      justify-content: center;
+      -webkit-box-align: center;
+      -ms-flex-align: center;
+      -webkit-align-items: center;
+      align-items: center;
+    }
+    .stop{height: 55px;position: fixed;width: 100%;z-index: 100;top: 0;background: #eee}
+    .navSwiper{height: 50px;}
+    .swiper-scrollbar{width: 100%;}
+    .scroll{height: 100%;width: 100%;padding-bottom: 55px;}
+    .slidescroll {height: auto;min-height:100%;background:#fff;position: relative;}
+	.loading{background: #eee;line-height: 55px;height: 55px;margin-bottom:-1px;position: absolute;bottom: -55px;width: 100%;}
+	.loading.on::before{content:"";display: inline-block;width: 16px;height: 16px;border:2px solid #aaa;border-bottom:2px solid #eee;animation:myrotate 1s infinite linear;border-radius: 50%;vertical-align: -10%;margin-right: 10px;}
+	@keyframes myrotate{
+		from {transform: rotate(0deg);}
+		to {transform: rotate(360deg);}
+	}
+	ul{display: block;width: 100%;padding:5px 8px;}
+	ul li{font-size: 15px;line-height: 32px;padding-right: 100px;text-overflow: ellipsis;white-space: nowrap;overflow: hidden;position: relative;text-align:left}
+	ul li span{color:#999;position: absolute;right: 0;top:0;}
+	.navSwiper .swiper-slide{line-height: 50px;padding: 0 5px;}
+	.navSwiper .bar{width: 50px;height: 3px;position: absolute;bottom: 0px;}
+	.navSwiper .bar .color {width: 70%;margin: 0 auto;height: 3px;background: #ff4891;}
+  </style>
+</head>
+<body>
+	<div class="stop">
+	<div class="swiper-container navSwiper">
+    <div class="swiper-wrapper">
+      <div class="swiper-slide">发改要闻</div>
+      <div class="swiper-slide">历史专题</div>
+      <div class="swiper-slide">热点专题</div>
+      <div class="swiper-slide">Slide 4</div>
+      <div class="swiper-slide">Slide 5</div>
+      <div class="swiper-slide">Slide 6</div>
+      <div class="swiper-slide">Slide 7</div>
+      <div class="swiper-slide">Slide 8</div>
+      <div class="swiper-slide">Slide 9</div>
+      <div class="swiper-slide">Slide 10</div>
+      <div class="bar">
+        <div class="color"></div>
+      </div>
+      <!-- <div class="swiper-scrollbar"></div> -->
+    </div>
+  </div>
+  <!-- <div class="swiper-scrollbar"></div> -->
+  </div>
+  <!-- Swiper -->
+  <div class="swiper-container pageSwiper" >
+    <div class="swiper-wrapper">
+      <div class="swiper-slide">
+      		<div class="swiper-container scroll" >
+			    <div class="swiper-wrapper">
+			    <div class="swiper-slide slidescroll">
+			      <@infoListPage p='${param.p!1}' size='20' pathId='MBNbEr'>
+                  <ul totalPage=${page.totalPage}>
+                    <#list result as l>
+                    <a href="<#if (l.linkUrl!)=''>${l.linkUrl!}<#else>${base}${l.contentUrl}</#if>" target="_blank"><li>${l.title!} <span>${dateFormat(l.showTime,'yyyy-MM-dd')}</span></li></a>
+                    </#list>
+                  </ul>
+                  </@infoListPage>
+			    </div>
+			    </div>
+			</div>
+      </div>
+      <div class="swiper-slide">
+      	<div class="swiper-container scroll" >
+			    <div class="swiper-wrapper">
+			    <div class="swiper-slide slidescroll">
+			      <@infoListPage p='${param.p!1}' size='20' pathId='jQ77ru'>
+                  <ul totalPage=${page.totalPage}>
+                    <#list result as l>
+                    <a href="<#if (l.linkUrl!)=''>${l.linkUrl!}<#else>${base}${l.contentUrl}</#if>" target="_blank"><li>${l.title!} <span>${dateFormat(l.showTime,'yyyy-MM-dd')}</span></li></a>
+                    </#list>
+                  </ul>
+                  </@infoListPage>
+			    </div>
+			    </div>
+			</div>
+      </div>
+      <div class="swiper-slide">
+        	<div class="swiper-container scroll" >
+			    <div class="swiper-wrapper">
+			    <div class="swiper-slide slidescroll">
+			      <@infoListPage p='${param.p!1}' size='20' pathId='vAZVvi'>
+                  <ul totalPage=${page.totalPage}>
+                    <#list result as l>
+                    <a href="<#if (l.linkUrl!)=''>${l.linkUrl!}<#else>${base}${l.contentUrl}</#if>" target="_blank"><li>${l.title!} <span>${dateFormat(l.showTime,'yyyy-MM-dd')}</span></li></a>
+                    </#list>
+                  </ul>
+                  </@infoListPage>
+			    </div>
+			    </div>
+			</div>
+      </div>
+      <div class="swiper-slide">Slide 4</div>
+      <div class="swiper-slide">Slide 5</div>
+      <div class="swiper-slide">Slide 6</div>
+      <div class="swiper-slide">Slide 7</div>
+      <div class="swiper-slide">Slide 8</div>
+      <div class="swiper-slide">Slide 9</div>
+      <div class="swiper-slide">Slide 10</div>
+    </div>
+  </div>
+
+
+  <!-- Initialize Swiper -->
+  <script>
+  	var index=0,arr=[],arr1=[],
+  	tSpeed = 300 //切换速度300ms
+    var pageSwiper = new Swiper('.pageSwiper',{
+    	on:{
+	  		touchStart: function() {
+	  			index=this.activeIndex
+	  		},
+	  		touchMove: function() {
+	  			progress = this.progress
+	  			bar.transition(0)
+	  			bar.transform('translateX(' + navSum * progress + 'px)')
+	  		},
+	  		transitionStart: function() {
+	  			activeIndex = this.activeIndex
+	  			activeSlidePosition = navSwiper.slides[activeIndex].offsetLeft
+	  			//释放时导航粉色条移动过渡
+	  			bar.transition(tSpeed)
+	  			bar.transform('translateX(' + activeSlidePosition + 'px)')
+	  			//释放时文字变色过渡
+	  			navSwiper.slides.eq(activeIndex).transition(tSpeed)
+	  			navSwiper.slides.eq(activeIndex).css('color', 'rgba(255,72,145,1)')
+	  			if (activeIndex > 0) {
+	  				navSwiper.slides.eq(activeIndex - 1).transition(tSpeed)
+	  				navSwiper.slides.eq(activeIndex - 1).css('color', 'rgba(51,51,51,1)')
+	  			}
+	  			if (activeIndex < this.slides.length) {
+	  				navSwiper.slides.eq(activeIndex + 1).transition(tSpeed)
+	  				navSwiper.slides.eq(activeIndex + 1).css('color', 'rgba(51,51,51,1)')
+	  			}
+	  			//导航居中
+	  			navActiveSlideLeft = navSwiper.slides[activeIndex].offsetLeft //activeSlide距左边的距离
+
+	  			navSwiper.setTransition(tSpeed)
+	  			if (navActiveSlideLeft < (clientWidth - parseInt(navSlideWidth)) / 2) {
+	  				navSwiper.setTranslate(0)
+	  			} else if (navActiveSlideLeft > navWidth - (parseInt(navSlideWidth) + clientWidth) / 2) {
+	  				navSwiper.setTranslate(clientWidth - navWidth)
+	  			} else {
+	  				navSwiper.setTranslate((clientWidth - parseInt(navSlideWidth)) / 2 - navActiveSlideLeft)
+	  			}
+	  		},
+          	init: function(){
+	  			for (i = 0; i < this.slides.length; i++) {
+	  				if($(this.slides[i]).find("ul").attr("totalPage")==1){
+          				arr1[i]=1
+                        $(this.slides[i]).find(".slidescroll").append('<div class="loading">暂无更多...</div>')
+        			}else{
+                        $(this.slides[i]).find(".slidescroll").append('<div class="loading">上拉加载...</div>')
+                    }
+	  			}
+	  		},
+	  	}
+    });
+
+    var navSwiper = new Swiper('.navSwiper', {
+        slidesPerView: 5,
+        spaceBetween: 0,
+        freeMode: true,
+		breakpoints: {
+			1024: {
+				slidesPerView: 5,
+			},
+			768: {
+				slidesPerView: 4,
+			},
+			640: {
+				slidesPerView: 3,
+			},
+		},
+      	on: {
+	  		init: function() {
+	  			this.slides.eq(0).css('color', 'rgba(255,72,145,1)');
+	  			navSlideWidth = this.slides.eq(0).css('width'); //导航字数需要统一,每个导航宽度一致
+	  			bar = this.$el.find('.bar')
+	  			bar.css('width', navSlideWidth)
+	  			bar.transition(tSpeed)
+	  			navSum = this.slides[this.slides.length - 1].offsetLeft //最后一个slide的位置
+
+	  			clientWidth = parseInt(this.$wrapperEl.css('width')) //Nav的可视宽度
+	  			navWidth = 0
+	  			for (i = 0; i < this.slides.length; i++) {
+	  				navWidth += parseInt(this.slides.eq(i).css('width'))
+	  			}
+	  		},
+	  	},
+    });
+
+	navSwiper.on('tap', function(e) {
+	  	clickIndex = this.clickedIndex
+	  	if(clickIndex==undefined){return}
+	  	clickSlide = this.slides.eq(clickIndex)
+	  	pageSwiper.slideTo(clickIndex, 300);
+	  	this.slides.css('color', 'rgba(51,51,51,1)');
+	  	clickSlide.css('color', 'rgba(255,72,145,1)');
+	  })
+
+    var scrollSwiper = new Swiper('.scroll', {
+	  	//55是头部的高 ，40是加载框的高
+      	slidesOffsetAfter: -55,
+	  	slidesOffsetBefore: 55,
+	  	direction: 'vertical',
+	  	freeMode: true,
+	  	slidesPerView: 'auto',
+	  	mousewheel: {
+	  		releaseOnEdges: true,
+	  	},
+	  	on:{
+	  		touchEnd: function() {
+	  			var n=this.height-this.virtualSize-this.translate>55
+	  			if(n&&!arr1[index]){
+	  				this.params.virtualTranslate=true;//定住不给回弹
+	  				this.allowTouchMove=false;
+	  				this.appendSlide('');
+	  				this.$el.find(".loading").text("加载中...")
+	  				this.$el.find(".loading").addClass('on')
+	  				loadmore( this,$(this.$el.find("ul")).attr("totalPage") )
+	  			}
+	  		},
+         	touchMove: function() {
+                var n=this.height-this.virtualSize-this.translate>55
+                if(n&&!arr1[index]){
+                    this.$el.find(".loading").text("释放可加载...")
+                }else if(!arr1[index]){
+                    this.$el.find(".loading").text("上拉加载...")
+                }
+            },
+	  	}
+	})
+
+	function loadmore( self, index1 ){
+		arr[index]=arr[index]?++arr[index]:2
+		$.ajax({
+            url:'/test1.chtml?p='+arr[index],
+            success:function(data){
+                setTimeout(function(){
+                	$(data).find(".scroll").eq(index).find("a").appendTo($(self.$el.find("ul")))
+                    self.appendSlide('');
+  				 	self.$el.find(".loading").text("上拉加载...")
+  				 	self.$el.find(".loading").removeClass('on')
+  				 	self.allowTouchMove=true;
+                  	if( index1 == arr[index] ){
+                      arr1[index]=1
+                      self.$el.find(".loading").text("暂无更多...")
+                    }
+  				 	self.params.virtualTranslate=false;//取消定住不给回
+                },1000)
+            },
+            type:'get',
+            error:function(){
+              console.log('请求失败了');
+            }
+        })
+    }
+
+     
+     
+  </script>
+</body>
+</html>
+
+              	
+              	
+              	
+              	
+              	
+              	
+              	
+
+              	
+              	
+              	
+              	
+              	
+              	
+              	
+              	
