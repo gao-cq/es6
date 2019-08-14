@@ -1,4 +1,4 @@
-var arr=[],t=0,num=100000
+var arr=[],t=0,num=10000
 console.time("数组生成时间");
 for(var i=0;i<num;i++){
     arr.push( Math.floor( Math.random()*num*10 ) )
@@ -41,7 +41,7 @@ Array.prototype.sort = function( fun ) {
     //插入排序
     function insertionSort(arr){
         for (var i = 1; i < arr.length; i++) {
-            var j=i-1;
+            var j=i;
             while (--j>-1 && fun(arr[j+1], arr[j]) < 0) {
                 swap(arr, j+1, j)
             }
