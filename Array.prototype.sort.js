@@ -5,7 +5,6 @@ for(var i=0;i<num;i++){
 }
 console.timeEnd("数组生成时间");
 
-
 Array.prototype.sort = function( fun ) {
     //交换
     function swap(arr, x, y){
@@ -74,10 +73,10 @@ Array.prototype.sort = function( fun ) {
         if(arr.length <2 ) {
             return arr
         }
-        var c = arr[0]
+        var c= arr.splice( Math.floor( arr.length/2 ), 1 )
         var l = [];
         var r = [];
-        for (var i = 1; i < arr.length; i++) {
+        for (var i = 0; i < arr.length; i++) {
             if(fun(arr[i], c)<0) {
                 l.push(arr[i]);
             } else {
@@ -85,6 +84,7 @@ Array.prototype.sort = function( fun ) {
             }
         }
         return quickSort(l).concat(c, quickSort(r));
+
     }
 
     //归并排序
@@ -136,7 +136,7 @@ Array.prototype.sort = function( fun ) {
 
 function sortnum(a, b) {
     t++
-	// return a - b //递增
+	return a - b //递增
 	return b - a //递减
 }
 
